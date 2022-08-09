@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Usuario as UsuarioListar;
+use App\Http\Controllers\API\Usuario;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,12 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function(){
     Route::get('lista',function(){
-        return ["a","b","c","d"];
+        return UsuarioListar::listar(10);
     });
 
-    Route::post('cadastra',function(){
-        echo "implementar";
-    });
+    Route::post('cadastra',[Usuario::class, 'salvar']);
 });
 
 Route::prefix('v2')->group(function(){
