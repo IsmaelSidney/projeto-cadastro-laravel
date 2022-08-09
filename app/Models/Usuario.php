@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class Usuario extends Model
 {
@@ -18,6 +20,7 @@ class Usuario extends Model
             "id",
             "nome",
             "email",
+            "senha",
             "data_cadastro"
         ])
         ->limit($limite);
@@ -26,12 +29,11 @@ class Usuario extends Model
     }
 
     public static function cadastrar(Request $request){
-        $sql = self::insert([
+       return self::insert([
             "nome" => $request->input('nome'),
             "email" => $request->input('email'),
-            "data_cadastro" => DB::raw('NOW()')
+            "senha" => Hash::make($request->input('senha')) ,
+            "data_cadastro" => new Carbon()
         ]);
-
-        dd($sql->toSql(),$request->all());
     }
 }
